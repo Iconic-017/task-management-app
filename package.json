@@ -1,0 +1,16 @@
+{
+  "name": "task-management",
+  "version": "1.0.0",
+  "description": "Full-stack Task Management Application",
+  "scripts": {
+    "install:all": "cd server && npm install && cd ../client && npm install",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "start:server": "cd server && npm start",
+    "build:client": "cd client && npm run build"
+  },
+  "keywords": ["task-management", "react", "express", "mongodb", "lambda"],
+  "author": "",
+  "license": "ISC"
+}
+

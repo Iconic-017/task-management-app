@@ -1,0 +1,11 @@
+{
+  "name": "login-lambda",
+  "version": "1.0.0",
+  "description": "AWS Lambda function for authentication",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node test.js"
+  }
+}
+
