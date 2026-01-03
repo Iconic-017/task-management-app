@@ -107,7 +107,7 @@ export default function Login({ onLogin }) {
                 ${
                   loading || !isFormValid
                     ? 'bg-indigo-300 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700'
+                    : 'bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700'
                 }`}
             >
               {loading ? 'Signing in...' : 'Sign In'}
