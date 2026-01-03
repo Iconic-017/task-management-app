@@ -215,6 +215,18 @@ The frontend will run on `http://localhost:3000`
 - Backend validates data and business rules
 - Status transition errors provide clear feedback
 
+## ⏱️ Time Log (Effort Distribution – Approximate)
+
+| Area | Time Spent |
+| --- | ---: |
+| UI & Responsiveness | ~3 hours |
+| Backend APIs & Database | ~3 hours |
+| AWS Lambda Authentication | ~2 hours |
+| AI Task Title Suggestion | ~1 hours |
+| Debugging, Testing & Deployment | ~4 hours |
+
+Note: Percentages are approximate and represent relative effort during development.
+
 ## API Endpoints
 
 ### Tasks
