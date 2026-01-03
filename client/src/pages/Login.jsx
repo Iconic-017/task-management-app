@@ -7,8 +7,18 @@ export default function Login({ onLogin }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const isUsernameValid = username.trim().length >= 3;
+  const isPasswordValid = password.length >= 6;
+  const isFormValid = isUsernameValid && isPasswordValid;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!isFormValid) {
+      setError('Username must be at least 3 characters and password must be at least 6 characters');
+      return;
+    }
+
     setError('');
     setLoading(true);
 
@@ -48,11 +58,17 @@ export default function Login({ onLogin }) {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
+                minLength={3}
                 placeholder="Enter username"
                 className="w-full h-11 px-4 rounded-lg border border-gray-300
                            focus:outline-none focus:ring-2 focus:ring-indigo-500/30
                            focus:border-indigo-500"
               />
+              {username && username.length < 3 && (
+                <p className="text-xs text-red-500 mt-1">
+                  Username must be at least 3 characters
+                </p>
+              )}
             </div>
 
             <div>
@@ -64,11 +80,17 @@ export default function Login({ onLogin }) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                minLength={6}
                 placeholder="Enter password"
                 className="w-full h-11 px-4 rounded-lg border border-gray-300
                            focus:outline-none focus:ring-2 focus:ring-indigo-500/30
                            focus:border-indigo-500"
               />
+              {password && password.length < 6 && (
+                <p className="text-xs text-red-500 mt-1">
+                  Password must be at least 6 characters
+                </p>
+              )}
             </div>
 
             {error && (
@@ -79,13 +101,13 @@ export default function Login({ onLogin }) {
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !isFormValid}
               className={`w-full h-11 rounded-lg font-semibold text-white
                 transition-all
                 ${
-                  loading
+                  loading || !isFormValid
                     ? 'bg-indigo-300 cursor-not-allowed'
-                    : 'bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700'
+                    : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700'
                 }`}
             >
               {loading ? 'Signing in...' : 'Sign In'}

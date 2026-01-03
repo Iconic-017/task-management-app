@@ -94,10 +94,10 @@ const TaskList = ({ onLogout }) => {
     setTaskToDelete(task);
   };
 
-  const handleAITitleSelected = (title) => {
+  const handleAITitleSelected = (title, description) => {
     setDraftTask({
       title,
-      description: "",
+      description: description || "",
       category: "",
       priority: "Medium",
       dueDate: "",
@@ -176,16 +176,55 @@ const TaskList = ({ onLogout }) => {
           {error && <div className="error-message">{error}</div>}
 
           {showForm && !editingTask && (
-            <div className="form-section">
-              <TaskForm
-                task={draftTask}
-                onSubmit={handleCreateTask}
-                onCancel={() => {
-                  setShowForm(false);
-                  setEditingTask(null);
-                  setDraftTask(null);
-                }}
-              />
+            <div
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+              onClick={() => {
+                setShowForm(false);
+                setEditingTask(null);
+                setDraftTask(null);
+              }}
+            >
+              <div
+                className="w-full max-w-2xl bg-white rounded-2xl shadow-xl max-h-[90vh] flex flex-col"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between px-6 py-4 border-b">
+                  <div>
+                    <h2 className="text-lg font-semibold text-gray-800">
+                      Create New Task
+                    </h2>
+                    <p className="text-sm text-gray-500">
+                      Add a new task to your list
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      setShowForm(false);
+                      setEditingTask(null);
+                      setDraftTask(null);
+                    }}
+                    className="p-2 rounded-md hover:bg-gray-100 text-gray-500 hover:text-gray-700 transition"
+                    aria-label="Close modal"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* Body */}
+                <div className="px-6 py-5 overflow-y-auto flex-1">
+                  <TaskForm
+                    task={draftTask}
+                    onSubmit={handleCreateTask}
+                    onCancel={() => {
+                      setShowForm(false);
+                      setEditingTask(null);
+                      setDraftTask(null);
+                    }}
+                  />
+                </div>
+              </div>
             </div>
           )}
 

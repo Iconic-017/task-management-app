@@ -155,6 +155,21 @@
   border-radius: 4px;
   font-size: 1rem;
   font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.form-group input.error,
+.form-group textarea.error,
+.form-group select.error {
+  border-color: #ef4444;
+  border-width: 2px;
+}
+
+.error-text {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: block;
 }
 
 .form-group textarea {

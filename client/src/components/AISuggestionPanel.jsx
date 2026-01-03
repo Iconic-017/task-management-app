@@ -7,8 +7,10 @@ const AISuggestionPanel = ({ onTitleSelected }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const isDescriptionValid = description.trim().length >= 10;
+
   const handleSuggest = async () => {
-    if (!description.trim() || description.trim().length < 10) {
+    if (!isDescriptionValid) {
       setError("Description must be at least 10 characters");
       return;
     }
@@ -29,7 +31,7 @@ const AISuggestionPanel = ({ onTitleSelected }) => {
 
   const handleUseTitle = () => {
     if (suggestedTitle && onTitleSelected) {
-      onTitleSelected(suggestedTitle);
+      onTitleSelected(suggestedTitle, description);
       setDescription("");
       setSuggestedTitle("");
     }
@@ -51,9 +53,13 @@ const AISuggestionPanel = ({ onTitleSelected }) => {
         </div>
 
         <button
-          className="btn btn-primary"
+          className={`btn ${isDescriptionValid && !loading ? "btn-primary" : "btn-secondary"}`}
           onClick={handleSuggest}
-          disabled={loading || !description.trim()}
+          disabled={loading || !isDescriptionValid}
+          style={{
+            opacity: isDescriptionValid && !loading ? 1 : 0.6,
+            cursor: isDescriptionValid && !loading ? "pointer" : "not-allowed",
+          }}
         >
           {loading ? "Generating..." : "Generate Title"}
         </button>

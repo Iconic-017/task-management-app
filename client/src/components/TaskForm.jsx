@@ -12,6 +12,9 @@ const TaskForm = ({ task, onSubmit, onCancel }) => {
     status: task?.status || "Pending",
   });
 
+  const [touched, setTouched] = useState({});
+  const [errors, setErrors] = useState({});
+
   useEffect(() => {
     if (task) {
       setFormData({
@@ -34,15 +37,67 @@ const TaskForm = ({ task, onSubmit, onCancel }) => {
         status: "Pending",
       });
     }
+    setTouched({});
+    setErrors({});
   }, [task]);
+
+  const validateField = (name, value) => {
+    switch (name) {
+      case "title":
+        return value.trim() === "" ? "Title is required" : "";
+      case "description":
+        return value.trim() === "" ? "Description is required" : "";
+      case "category":
+        return value.trim() === "" ? "Category is required" : "";
+      case "dueDate":
+        return value === "" ? "Due date is required" : "";
+      default:
+        return "";
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Clear error when user starts typing
+    if (errors[name] && touched[name]) {
+      const error = validateField(name, value);
+      setErrors((prev) => ({ ...prev, [name]: error }));
+    }
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    const error = validateField(name, value);
+    setErrors((prev) => ({ ...prev, [name]: error }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Validate all required fields
+    const newErrors = {};
+    const requiredFields = ["title", "description", "category", "dueDate"];
+    requiredFields.forEach((field) => {
+      const error = validateField(field, formData[field]);
+      if (error) {
+        newErrors[field] = error;
+      }
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setTouched(
+        requiredFields.reduce((acc, field) => {
+          acc[field] = true;
+          return acc;
+        }, {})
+      );
+      return;
+    }
+
     onSubmit(formData);
   };
 
@@ -56,8 +111,13 @@ const TaskForm = ({ task, onSubmit, onCancel }) => {
           name="title"
           value={formData.title}
           onChange={handleChange}
+          onBlur={handleBlur}
+          className={touched.title && errors.title ? "error" : ""}
           required
         />
+        {touched.title && errors.title && (
+          <span className="error-text">{errors.title}</span>
+        )}
       </div>
 
       <div className="form-group">
@@ -67,9 +127,14 @@ const TaskForm = ({ task, onSubmit, onCancel }) => {
           name="description"
           value={formData.description}
           onChange={handleChange}
+          onBlur={handleBlur}
           rows="4"
+          className={touched.description && errors.description ? "error" : ""}
           required
         />
+        {touched.description && errors.description && (
+          <span className="error-text">{errors.description}</span>
+        )}
       </div>
 
       <div className="form-group">
@@ -80,8 +145,13 @@ const TaskForm = ({ task, onSubmit, onCancel }) => {
           name="category"
           value={formData.category}
           onChange={handleChange}
+          onBlur={handleBlur}
+          className={touched.category && errors.category ? "error" : ""}
           required
         />
+        {touched.category && errors.category && (
+          <span className="error-text">{errors.category}</span>
+        )}
       </div>
 
       <div className="form-row">
@@ -108,8 +178,13 @@ const TaskForm = ({ task, onSubmit, onCancel }) => {
             name="dueDate"
             value={formData.dueDate}
             onChange={handleChange}
+            onBlur={handleBlur}
+            className={touched.dueDate && errors.dueDate ? "error" : ""}
             required
           />
+          {touched.dueDate && errors.dueDate && (
+            <span className="error-text">{errors.dueDate}</span>
+          )}
         </div>
       </div>
 
