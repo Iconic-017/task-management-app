@@ -186,7 +186,7 @@ const TaskForm = ({ task, onSubmit, onCancel }) => {
         </div>
       </div>
 
-      {task && (
+      {(task && (task._id || task.id)) && (
         <div className="form-group">
           <label htmlFor="status">Status</label>
           <select
@@ -204,7 +204,7 @@ const TaskForm = ({ task, onSubmit, onCancel }) => {
 
       <div className="form-actions">
         <button type="submit" className="btn btn-primary">
-          Create Task
+          {(task && (task._id || task.id)) ? "Update Task" : "Create Task"}
         </button>
         {onCancel && (
           <button
