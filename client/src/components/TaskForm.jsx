@@ -60,7 +60,6 @@ const TaskForm = ({ task, onSubmit, onCancel }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    // Clear error when user starts typing
     if (errors[name] && touched[name]) {
       const error = validateField(name, value);
       setErrors((prev) => ({ ...prev, [name]: error }));
@@ -77,24 +76,28 @@ const TaskForm = ({ task, onSubmit, onCancel }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Validate all required fields
     const newErrors = {};
     const requiredFields = ["title", "description", "category", "dueDate"];
+    const allTouched = {};
+    
     requiredFields.forEach((field) => {
       const error = validateField(field, formData[field]);
       if (error) {
         newErrors[field] = error;
       }
+      allTouched[field] = true;
     });
 
+    setTouched((prev) => ({ ...prev, ...allTouched }));
+    setErrors(newErrors);
+
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      setTouched(
-        requiredFields.reduce((acc, field) => {
-          acc[field] = true;
-          return acc;
-        }, {})
-      );
+      const firstErrorField = Object.keys(newErrors)[0];
+      const errorElement = document.getElementById(firstErrorField);
+      if (errorElement) {
+        errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        errorElement.focus();
+      }
       return;
     }
 
@@ -112,10 +115,9 @@ const TaskForm = ({ task, onSubmit, onCancel }) => {
           value={formData.title}
           onChange={handleChange}
           onBlur={handleBlur}
-          className={touched.title && errors.title ? "error" : ""}
-          required
+          className={errors.title ? "error" : ""}
         />
-        {touched.title && errors.title && (
+        {(touched.title || errors.title) && errors.title && (
           <span className="error-text">{errors.title}</span>
         )}
       </div>
@@ -129,10 +131,9 @@ const TaskForm = ({ task, onSubmit, onCancel }) => {
           onChange={handleChange}
           onBlur={handleBlur}
           rows="4"
-          className={touched.description && errors.description ? "error" : ""}
-          required
+          className={errors.description ? "error" : ""}
         />
-        {touched.description && errors.description && (
+        {(touched.description || errors.description) && errors.description && (
           <span className="error-text">{errors.description}</span>
         )}
       </div>
@@ -146,10 +147,9 @@ const TaskForm = ({ task, onSubmit, onCancel }) => {
           value={formData.category}
           onChange={handleChange}
           onBlur={handleBlur}
-          className={touched.category && errors.category ? "error" : ""}
-          required
+          className={errors.category ? "error" : ""}
         />
-        {touched.category && errors.category && (
+        {(touched.category || errors.category) && errors.category && (
           <span className="error-text">{errors.category}</span>
         )}
       </div>
@@ -162,7 +162,6 @@ const TaskForm = ({ task, onSubmit, onCancel }) => {
             name="priority"
             value={formData.priority}
             onChange={handleChange}
-            required
           >
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
@@ -179,10 +178,9 @@ const TaskForm = ({ task, onSubmit, onCancel }) => {
             value={formData.dueDate}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={touched.dueDate && errors.dueDate ? "error" : ""}
-            required
+            className={errors.dueDate ? "error" : ""}
           />
-          {touched.dueDate && errors.dueDate && (
+          {(touched.dueDate || errors.dueDate) && errors.dueDate && (
             <span className="error-text">{errors.dueDate}</span>
           )}
         </div>
@@ -206,7 +204,7 @@ const TaskForm = ({ task, onSubmit, onCancel }) => {
 
       <div className="form-actions">
         <button type="submit" className="btn btn-primary">
-          Create Task
+          {task ? "Update Task" : "Create Task"}
         </button>
         {onCancel && (
           <button

@@ -284,7 +284,7 @@ const TaskList = ({ onLogout }) => {
               No tasks found. Create your first task!
             </div>
           ) : (
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-xl shadow-sm border border-black overflow-hidden task-table-wrapper">
               <table className="w-full text-sm">
                 <thead className="bg-gray-50 border-b">
                   <tr>
