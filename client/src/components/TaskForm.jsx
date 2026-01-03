@@ -204,7 +204,7 @@ const TaskForm = ({ task, onSubmit, onCancel }) => {
 
       <div className="form-actions">
         <button type="submit" className="btn btn-primary">
-          {task ? "Update Task" : "Create Task"}
+          Create Task
         </button>
         {onCancel && (
           <button
