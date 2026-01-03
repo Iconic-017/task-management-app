@@ -34,29 +34,18 @@ This application provides a comprehensive task management system with:
 
 ```mermaid
 flowchart LR
-   U[👤 User<br/>Frontend UI]:::user
-   FE[🌐 React Frontend]:::frontend
-   APIGW[🚪 API Gateway]:::apigw
-   LAMBDA[⚡ AWS Lambda<br/>Login Function]:::lambda
-   AUTH[🔐 Credential Validation]:::logic
-   TOKEN[🎟️ JWT Token Response]:::token
-   STORAGE[💾 LocalStorage]:::storage
+    U[👤 User]:::user --> A[🌐 React App]:::app
+    A -->|POST /login| G[🚪 API Gateway]:::gateway
+    G -->|Invoke| L[⚡ AWS Lambda]:::lambda
+    L -->|Mock Token| G
+    G -->|Store Token in 
+         Local Storage| A
 
-   U --> FE
-   FE -->|POST /login| APIGW
-   APIGW --> LAMBDA
-   LAMBDA --> AUTH
-   AUTH -->|Valid| TOKEN
-   TOKEN --> FE
-   FE --> STORAGE
+    classDef user fill:#E0F2FE,stroke:#0284C7,stroke-width:2px
+    classDef app fill:#ECFEFF,stroke:#0891B2,stroke-width:2px
+    classDef gateway fill:#FFF7ED,stroke:#EA580C,stroke-width:2px
+    classDef lambda fill:#FEF3C7,stroke:#D97706,stroke-width:2px
 
-   classDef user fill:#E0F2FE,stroke:#0284C7,stroke-width:2px
-   classDef frontend fill:#ECFEFF,stroke:#0891B2,stroke-width:2px
-   classDef apigw fill:#FFF7ED,stroke:#EA580C,stroke-width:2px
-   classDef lambda fill:#FEF3C7,stroke:#D97706,stroke-width:2px
-   classDef logic fill:#F0FDF4,stroke:#16A34A,stroke-width:2px
-   classDef token fill:#FDF4FF,stroke:#A855F7,stroke-width:2px
-   classDef storage fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
 ```
 
 ## Tech Stack
