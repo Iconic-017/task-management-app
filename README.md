@@ -9,6 +9,18 @@ A production-quality full-stack task management application demonstrating clean 
 - **Frontend:** [https://task-management-app-eight-chi.vercel.app/](https://task-management-app-eight-chi.vercel.app/)
 - **Backend API:** [https://task-management-app-qggg.onrender.com](https://task-management-app-qggg.onrender.com)
 
+## ⏱️ Time Log (Effort Distribution – Approximate)
+
+| Area | Time Spent | Percentage |
+| --- | ---: | ---: |
+| UI & Responsiveness | ~3 hours | 27% |
+| Backend APIs & Database | ~3 hours | 27% |
+| AWS Lambda Authentication | ~2 hours | 18% |
+| AI Task Title Suggestion | ~1 hour | 9% |
+| Debugging, Testing & Deployment | ~2 hours | 18% |
+
+Note: Time values are approximate. Percentages are computed relative to the total reported time (~11 hours).
+
 ## Overview
 
 This application provides a comprehensive task management system with:
@@ -19,6 +31,33 @@ This application provides a comprehensive task management system with:
 - AI-powered task title suggestions
 - AWS Lambda-based authentication microservice
 - Activity logging for task operations
+
+```mermaid
+flowchart LR
+   U[👤 User<br/>Frontend UI]:::user
+   FE[🌐 React Frontend]:::frontend
+   APIGW[🚪 API Gateway]:::apigw
+   LAMBDA[⚡ AWS Lambda<br/>Login Function]:::lambda
+   AUTH[🔐 Credential Validation]:::logic
+   TOKEN[🎟️ JWT Token Response]:::token
+   STORAGE[💾 LocalStorage]:::storage
+
+   U --> FE
+   FE -->|POST /login| APIGW
+   APIGW --> LAMBDA
+   LAMBDA --> AUTH
+   AUTH -->|Valid| TOKEN
+   TOKEN --> FE
+   FE --> STORAGE
+
+   classDef user fill:#E0F2FE,stroke:#0284C7,stroke-width:2px
+   classDef frontend fill:#ECFEFF,stroke:#0891B2,stroke-width:2px
+   classDef apigw fill:#FFF7ED,stroke:#EA580C,stroke-width:2px
+   classDef lambda fill:#FEF3C7,stroke:#D97706,stroke-width:2px
+   classDef logic fill:#F0FDF4,stroke:#16A34A,stroke-width:2px
+   classDef token fill:#FDF4FF,stroke:#A855F7,stroke-width:2px
+   classDef storage fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+```
 
 ## Tech Stack
 
@@ -214,18 +253,6 @@ The frontend will run on `http://localhost:3000`
 - Frontend displays user-friendly error messages
 - Backend validates data and business rules
 - Status transition errors provide clear feedback
-
-## ⏱️ Time Log (Effort Distribution – Approximate)
-
-| Area | Time Spent |
-| --- | ---: |
-| UI & Responsiveness | ~3 hours |
-| Backend APIs & Database | ~3 hours |
-| AWS Lambda Authentication | ~2 hours |
-| AI Task Title Suggestion | ~1 hours |
-| Debugging, Testing & Deployment | ~4 hours |
-
-Note: Percentages are approximate and represent relative effort during development.
 
 ## API Endpoints
 
