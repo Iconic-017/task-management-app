@@ -1,9 +1,10 @@
 import axios from 'axios';
+import { getApiUrl } from '../config/api';
 
-const API_BASE_URL = '/api/tasks';
+const API_ENDPOINT = '/api/tasks';
 
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: getApiUrl(API_ENDPOINT),
   headers: {
     'Content-Type': 'application/json',
   },

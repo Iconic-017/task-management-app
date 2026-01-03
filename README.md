@@ -101,8 +101,16 @@ The server will run on `http://localhost:5000`
    npm install
    ```
 
-3. Create a `.env` file (optional, for AI and Lambda):
+3. Create a `.env` file (optional):
+   ```bash
+   cp .env.example .env
    ```
+   
+   For local development, you can leave `VITE_API_BASE_URL` empty (defaults to `http://localhost:5000`).
+   
+   For production, set:
+   ```
+   VITE_API_BASE_URL=https://task-management-app-qggg.onrender.com
    VITE_LAMBDA_ENDPOINT=https://your-api-gateway-url.execute-api.region.amazonaws.com/prod/login
    VITE_OPENAI_API_KEY=your-openai-api-key
    ```
@@ -113,6 +121,8 @@ The server will run on `http://localhost:5000`
    ```
 
 The frontend will run on `http://localhost:3000`
+
+**Note:** The frontend uses a central API configuration (`client/src/config/api.js`) that reads from `VITE_API_BASE_URL`. If not set, it defaults to `http://localhost:5000` in development mode.
 
 ### AWS Lambda Deployment
 
